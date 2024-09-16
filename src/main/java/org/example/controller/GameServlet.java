@@ -1,12 +1,14 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.dto.GameDto;
 import org.example.service.GameService;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,12 +17,16 @@ import java.util.List;
 @WebServlet("/games/*")
 public class GameServlet extends BaseServlet {
 
-    private final GameService gameService;
-    private final ObjectMapper objectMapper;
+    private GameService gameService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public GameServlet(GameService gameService) {
-        this.gameService = gameService;
-        this.objectMapper = new ObjectMapper();
+    public GameServlet() {
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.gameService = (GameService) config.getServletContext().getAttribute("gameService");
     }
 
     @Override

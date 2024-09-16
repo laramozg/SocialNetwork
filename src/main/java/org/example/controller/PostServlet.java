@@ -2,13 +2,14 @@ package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.dto.PostDto;
 import org.example.service.PostService;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,13 +18,16 @@ import java.util.List;
 @WebServlet("/post/*")
 public class PostServlet extends BaseServlet {
 
-    private final PostService postService;
-    private final ObjectMapper objectMapper;
+    private PostService postService;
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
-    public PostServlet(PostService postService) {
-        this.postService = postService;
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new JavaTimeModule());
+    public PostServlet() {
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.postService = (PostService) config.getServletContext().getAttribute("postService");
     }
 
     @Override

@@ -1,25 +1,30 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.dto.GameDto;
 import org.example.service.ProfileGameService;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/profile-game/*")
 public class ProfileGameServlet extends BaseServlet {
-    private final ProfileGameService profileGameService;
-    private final ObjectMapper objectMapper;
+    private ProfileGameService profileGameService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ProfileGameServlet(ProfileGameService profileGameService) {
-        this.profileGameService = profileGameService;
-        this.objectMapper = new ObjectMapper();
+    public ProfileGameServlet() {
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.profileGameService = (ProfileGameService) config.getServletContext().getAttribute("profileGameService");
     }
 
     @Override

@@ -1,7 +1,8 @@
 package org.example.controller;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 public abstract class BaseServlet extends HttpServlet {
@@ -28,4 +29,6 @@ public abstract class BaseServlet extends HttpServlet {
         }
         return false;
     }
+
+
 }

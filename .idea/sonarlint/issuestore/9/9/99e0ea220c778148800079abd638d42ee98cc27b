@@ -1,0 +1,7 @@
+
+Δ
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‘άζ8Πª® 2J$da2eb30e-206e-4605-b535-c4dacc694438
+x
+java:S1948"0Make "profileService" transient or serializable.(Θ‡ΫÒωÿÿÿÿ8’Ί‘ύ2J$0f4f058e-6332-4f61-bf62-4444563f2111
+ 
+java:S2226"XRemove this misleading mutable servlet instance field or make it "static" and/or "final"(Θ‡ΫÒωÿÿÿÿ8ζ‘® 2J$1bb5d623-105b-4dea-b631-37a4dc2fb571

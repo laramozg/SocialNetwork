@@ -1,0 +1,11 @@
+
+ˆ	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(¯õØª8Ÿ‰© 2J$20b65fde-c773-4e54-9f9f-e5dacc07a909
+ƒ	java:S1255"<This block of commented-out lines of code should be removed.(”¾­Éıÿÿÿÿ8Ñ‰© 2J$7b331eb4-5f1c-4e7e-a70b-ae9e4fa69c00
+t
+java:S1128",Remove this unused import 'java.sql.Driver'.(”óäŠÿÿÿÿÿ8³š¬ 2J$37c6afd9-3f34-4b3c-a43d-420b740a0d16
+v
+java:S1128"3Remove this unused import 'java.sql.DriverManager'.(“£°8³š¬ 2J$ba883d73-5e4c-46fb-a85e-cf1e69a0d6f3
+u
+java:S1128"2Remove this unused import 'java.sql.SQLException'.(ÛïÆŸ8³š¬ 2J$c02d0750-481a-48a7-ad94-833cee7d1b82
+u
+java:S1128"2Remove this unused import 'java.util.Enumeration'.(»îÜ®8³š¬ 2J$b1d92cd3-d9ab-4d71-babd-6b431c560b83

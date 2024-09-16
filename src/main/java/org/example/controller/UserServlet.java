@@ -1,24 +1,29 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.dto.UserDto;
 import org.example.service.UserService;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/users/*")
 public class UserServlet extends BaseServlet {
-    private final UserService userService;
-    private final ObjectMapper objectMapper;
+    private UserService userService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public UserServlet(UserService userService) {
-        this.userService = userService;
-        this.objectMapper = new ObjectMapper();
+    public UserServlet() {
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.userService = (UserService) config.getServletContext().getAttribute("userService");
     }
 
     @Override

@@ -1,13 +1,14 @@
 package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.dto.ProfileDto;
 import org.example.service.ProfileService;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,12 +16,16 @@ import java.sql.SQLException;
 @WebServlet("/profile/*")
 public class ProfileServlet extends BaseServlet {
 
-    private final ProfileService profileService;
-    private final ObjectMapper objectMapper;
+    private ProfileService profileService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public ProfileServlet(ProfileService profileService) {
-        this.profileService = profileService;
-        this.objectMapper = new ObjectMapper();
+    public ProfileServlet() {
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.profileService = (ProfileService) config.getServletContext().getAttribute("profileService");
     }
 
     @Override
@@ -56,7 +61,7 @@ public class ProfileServlet extends BaseServlet {
     }
 
     @Override
-    public void doPut(HttpServletRequest req, HttpServletResponse resp){
+    public void doPut(HttpServletRequest req, HttpServletResponse resp) {
         try {
             BufferedReader reader = req.getReader();
             ProfileDto profileDto = objectMapper.readValue(reader, ProfileDto.class);
@@ -68,7 +73,7 @@ public class ProfileServlet extends BaseServlet {
     }
 
     @Override
-    public void doDelete(HttpServletRequest req, HttpServletResponse resp){
+    public void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
         if (isPathInfoInvalid(pathInfo, resp, "User ID is missing.")) return;
 

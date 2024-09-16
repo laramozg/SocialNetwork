@@ -1,0 +1,7 @@
+
+Ä
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ì±´¯8Ş¼ 2J$541fbcef-457d-41fe-880c-cf7cf89c8d30
+|
+java:S1948"4Make "profileGameService" transient or serializable.(ñÀÕåøÿÿÿÿ8ø·‘ıŸ2J$a69b4403-bd1f-40fe-a72b-b8e9c3fe0c39
+ 
+java:S2226"XRemove this misleading mutable servlet instance field or make it "static" and/or "final"(ñÀÕåøÿÿÿÿ8áí¹ 2J$01c98708-e42d-4f4c-ade8-cbdc2c30cdc4

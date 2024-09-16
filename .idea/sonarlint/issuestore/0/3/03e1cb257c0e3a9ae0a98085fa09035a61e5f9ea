@@ -1,0 +1,7 @@
+
+É
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÇïÜ¨þÿÿÿÿ8÷Óð€ 2J$cb1c20de-ce52-49ce-8a4a-26a398af00f3
+u
+java:S1948"-Make "gameService" transient or serializable.(„Ãˆ²ùÿÿÿÿ8²•²þŸ2J$d0ce37fb-29d8-4098-ab0c-b23e083e34ee
+ 
+java:S2226"XRemove this misleading mutable servlet instance field or make it "static" and/or "final"(„Ãˆ²ùÿÿÿÿ8ª–²þŸ2J$43f694ef-943c-4344-86d4-d2056daf35f0
