@@ -1,0 +1,5 @@
+
+i
+java:S1170"!Make this final field static too.(ð¹µ¤üÿÿÿÿ8Ž¡ËÔž2J$54975b4c-9051-40e0-86d7-f4800c5d1a74
+½
+java:S6204"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(•ÔÐí8ÉÐ¦Øž2J$d91ad5c9-2aa6-46ac-9c26-4bc335344d71
