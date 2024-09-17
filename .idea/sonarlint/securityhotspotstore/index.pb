@@ -2542,3 +2542,5 @@ w
 G.idea/sonarlint/issuestore/e/b/ebc6652313a994397b8282af6afc1c658cd05e6b,8\d\8dc3bcfbcd3dbf1c52f486f394991911af9d2304
 w
 G.idea/sonarlint/issuestore/e/b/ebb64c4a151441f23eaec40fd6a12647b4e470b1,5\3\53d2ec2a15a4ca7017a19c3b4eb418323d88b0de
+i
+9src/main/java/org/example/config/DatabaseInitializer.java,8\a\8a004bc30d1a5be89e1a547c3b6db98bb5c3e479

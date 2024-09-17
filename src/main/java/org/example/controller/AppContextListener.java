@@ -1,18 +1,16 @@
 package org.example.controller;
+
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import org.example.config.DatabaseConfig;
+import org.example.config.DatabaseInitializer;
 import org.example.dao.*;
 import org.example.service.*;
 
-
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Enumeration;
 
 
 @WebListener
@@ -21,9 +19,12 @@ public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         DatabaseConfig databaseConfig = new DatabaseConfig();
         DataSource dataSource;
+        DatabaseInitializer dbInitializer;
         try {
             dataSource = databaseConfig.getDataSource();
-        } catch (IOException e) {
+            dbInitializer = new DatabaseInitializer(dataSource);
+            dbInitializer.initializeDatabase();
+        } catch (IOException | SQLException e) {
             throw new RuntimeException("Failed to configure DataSource", e);
         }
 
@@ -48,22 +49,5 @@ public class AppContextListener implements ServletContextListener {
         sce.getServletContext().setAttribute("profileGameService", profileGameService);
 
     }
-
-//    @Override
-//    public void contextDestroyed(ServletContextEvent sce) {
-//        try {
-//            Enumeration<Driver> drivers = DriverManager.getDrivers();
-//            while (drivers.hasMoreElements()) {
-//                Driver driver = drivers.nextElement();
-//                try {
-//                    DriverManager.deregisterDriver(driver);
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 }
