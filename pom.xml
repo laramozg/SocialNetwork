@@ -96,7 +96,14 @@
 
     <build>
         <plugins>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version> <!-- Убедитесь, что версия актуальна -->
+                <configuration>
+                    <!-- Опционально: настройте параметры -->
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
