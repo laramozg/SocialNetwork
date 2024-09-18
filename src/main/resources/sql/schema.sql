@@ -1,3 +1,9 @@
+drop table if exists posts;
+drop table if exists profile_games;
+drop table if exists games;
+drop table if exists profiles;
+drop table if exists users;
+
 CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,
                                   username VARCHAR(50) NOT NULL,
                                   password VARCHAR(100) NOT NULL

@@ -1496,8 +1496,6 @@ w
 G.idea/sonarlint/issuestore/9/4/94ab3de22cb74451ab8f0dc8875a469b6c45b778,5\5\5551e8f76fb17e9fd2c1476b9110be4353bd8c8a
 w
 G.idea/sonarlint/issuestore/9/e/9ed651bc975b2ddaf250bde779946b1c2dfaf87c,3\c\3ce5018882eb1858483833d5d5a480b032087b74
-Z
-*.idea/artifacts/untitled1_war_exploded.xml,b\d\bd3a82be0a1706ec1963c1e023fd6754a8cc615f
 w
 G.idea/sonarlint/issuestore/9/7/97c1dc371fd07b65dd2c16e8a0fbe38f369d4ab5,7\e\7eea53a2d9020cc010d54c062c74c3c5c7b58867
 w

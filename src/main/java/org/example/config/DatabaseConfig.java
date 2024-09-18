@@ -11,6 +11,7 @@ public class DatabaseConfig {
     private static final String PROPERTIES_FILE = "/db.properties";
 
     public DataSource getDataSource() throws IOException {
+
         Properties properties = new Properties();
         try (var input = getClass().getResourceAsStream(PROPERTIES_FILE)) {
             properties.load(input);

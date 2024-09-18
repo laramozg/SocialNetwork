@@ -8,18 +8,23 @@ import org.example.config.DatabaseInitializer;
 import org.example.dao.*;
 import org.example.service.*;
 
+
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
 
 @WebListener
 public class AppContextListener implements ServletContextListener {
+    private DatabaseInitializer dbInitializer;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         DatabaseConfig databaseConfig = new DatabaseConfig();
         DataSource dataSource;
-        DatabaseInitializer dbInitializer;
         try {
             dataSource = databaseConfig.getDataSource();
             dbInitializer = new DatabaseInitializer(dataSource);
@@ -48,6 +53,19 @@ public class AppContextListener implements ServletContextListener {
         ProfileGameService profileGameService = new ProfileGameService(profileGameDao);
         sce.getServletContext().setAttribute("profileGameService", profileGameService);
 
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            Driver driver = drivers.nextElement();
+            try {
+                DriverManager.deregisterDriver(driver);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

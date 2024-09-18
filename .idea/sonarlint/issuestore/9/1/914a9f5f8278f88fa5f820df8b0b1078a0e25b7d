@@ -1,2 +1,4 @@
 
-ˆ	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(¯õØª8øò½… 2J$813d59de-000a-483f-8c65-645a12c4223f
+ˆ	java:S112!"FDefine and throw a dedicated exception instead of using a generic one.(¯õØª8¶´­¶ 2J$af1561c7-55d5-4896-8a17-f69c27737da0
+Ÿ
+java:S1450"\Remove the "dbInitializer" field and declare it as a local variable in the relevant methods.(Èƒœö8¼´­¶ 2J$03591438-25df-4c8f-9ea9-848cd44e7423
