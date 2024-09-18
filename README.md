@@ -5,7 +5,7 @@
 ### Диаграмма
 ![img_1.png](img_1.png)
 
-### Докер для Dao тестов и проверки в Postman
+### Докер
 docker run -d --name postgres-test -e POSTGRES_DB=test -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 5432:5432 postgres:15
 
 ### Postman
