@@ -37,7 +37,7 @@ public class UserServlet extends BaseServlet {
             if (userDto != null) {
                 String jsonResponse = objectMapper.writeValueAsString(userDto);
                 resp.setContentType("application/json");
-                writeResponse(resp, HttpServletResponse.SC_OK, "изменения");
+                writeResponse(resp, HttpServletResponse.SC_OK, jsonResponse);
             } else {
                 writeResponse(resp, HttpServletResponse.SC_NOT_FOUND, "User not found.");
             }
