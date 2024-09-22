@@ -1,9 +1,3 @@
-DELETE FROM profile_games;
-DELETE FROM games;
-DELETE FROM posts;
-DELETE FROM profiles;
-DELETE FROM users;
-
 INSERT INTO users (username, password) VALUES
                                            ('user1', 'password1'),
                                            ('user2', 'password2'),

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  tomcat:
+    image: tomcat:10.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./target/social-war.war:/usr/local/tomcat/webapps/social-war.war
+    environment:
+      - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/test_db
+      - JDBC_DATABASE_USER=test
+      - JDBC_DATABASE_PASSWORD=test
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432:5432"
