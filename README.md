@@ -1,5 +1,5 @@
 ### Тестовое покрытие 
-- mvn clean package
+- mvn clean package war:war
 - ![img.png](img.png)
 
 ### Диаграмма
