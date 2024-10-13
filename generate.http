@@ -1,0 +1,59 @@
+### Создать нового пользователя
+#POST http://localhost:8080/users
+#Content-Type: application/json
+#
+#{
+#  "username": "new_user",
+#  "password": "password123"
+#}
+
+### Получить пользователя по ID
+#GET http://localhost:8080/users/1
+
+### Создать новую игру
+#POST http://localhost:8080/games
+#Content-Type: application/json
+#
+#{
+#  "title": "New Game",
+#  "genre": "Action"
+#}
+
+### Получить все игры
+#GET http://localhost:8080/games
+
+### Создать новый профиль
+#POST http://localhost:8080/profiles
+#Content-Type: application/json
+#
+#{
+#  "firstName": "John",
+#  "lastName": "Doe",
+#  "email": "john.doe@example.com",
+#  "userId": 1
+#}
+
+### Получить профиль по ID
+#GET http://localhost:8080/profiles/1
+
+### Создать новый пост
+#POST http://localhost:8080/posts/create
+#Content-Type: application/json
+#
+#{
+#  "profileId": 1,
+#  "content": "This is a new post!",
+#  "createdAt": "2024-10-12T10:00:00"
+#}
+
+### Получить все посты по ID профиля
+#GET http://localhost:8080/posts/1
+
+### Создать связь между профилем и игрой
+#POST http://localhost:8080/profile-games/create
+#Content-Type: application/x-www-form-urlencoded
+#
+#profileId=1&gameId=1
+
+# Получить все игры по ID профиля
+#GET http://localhost:8080/profile-games/profile/1/games
