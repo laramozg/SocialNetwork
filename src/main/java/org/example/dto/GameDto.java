@@ -1,21 +1,10 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GameDto {
     private Integer id;
     private String title;
     private String genre;
-
-    @JsonCreator
-    public GameDto(@JsonProperty("id") Integer id,
-                   @JsonProperty("title") String title,
-                   @JsonProperty("genre") String genre) {
-        this.id = id;
-        this.genre = genre;
-        this.title = title;
-    }
 
     public Integer getId() {
         return id;

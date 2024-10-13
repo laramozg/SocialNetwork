@@ -1,22 +1,21 @@
 package org.example.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "profiles")
 public class Profile {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String firstName;
     private String lastName;
     private String email;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User userId;
-
-    public Profile(Integer id, String firstName, String lastName, String email, User userId) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userId = userId;
-        this.email = email;
-    }
-
-    public Profile() {
-    }
 
     public void setId(int id) {
         this.id = id;

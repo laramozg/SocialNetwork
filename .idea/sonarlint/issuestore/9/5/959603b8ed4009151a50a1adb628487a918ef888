@@ -1,5 +1,5 @@
 
 i
-java:S1170"!Make this final field static too.(ğ¹µ¤üÿÿÿÿ8¡ËÔ2J$54975b4c-9051-40e0-86d7-f4800c5d1a74
-½
-java:S6204"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(•ÔĞí8ÉĞ¦Ø2J$d91ad5c9-2aa6-46ac-9c26-4bc335344d71
+java:S1170"!Make this final field static too.(ğ¹µ¤üÿÿÿÿ8—ÑÕ±¨2J$b6ffb9ed-27e7-4e25-b7e0-6e202d630b28
+w
+java:S2201"/The return value of "orElseThrow" must be used.(Ÿœ®ùÿÿÿÿ8ÍÄí¶¨2J$6b2ca1a9-d2bc-4ef6-94d3-f1388d436323

@@ -1,10 +1,22 @@
 package org.example.model;
 
+
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
+
+@Entity
+@Table(name = "posts")
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
     private Profile profileId;
+
     private String content;
     private LocalDateTime createdAt;
 

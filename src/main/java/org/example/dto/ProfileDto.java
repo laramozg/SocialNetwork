@@ -1,32 +1,11 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class ProfileDto {
     private Integer id;
     private String firstName;
     private String lastName;
     private String email;
     private Integer userId;
-
-    @JsonCreator
-    public ProfileDto(@JsonProperty("id") Integer id,
-                      @JsonProperty("firstName") String firstName,
-                      @JsonProperty("lastName") String lastName,
-                      @JsonProperty("email") String email,
-                      @JsonProperty("userId") Integer userId) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.userId = userId;
-
-    }
-
-    public ProfileDto() {
-    }
-
 
     public Integer getId() {
         return id;

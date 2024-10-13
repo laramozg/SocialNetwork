@@ -1,30 +1,58 @@
 package org.example.service;
 
-import org.example.dao.ProfileGameDao;
+import jakarta.persistence.EntityNotFoundException;
 import org.example.dto.GameDto;
 import org.example.mapper.GameMapper;
 import org.example.model.Game;
+import org.example.model.Profile;
+import org.example.model.ProfileGame;
+import org.example.model.ProfileGameId;
+import org.example.repository.GameRepository;
+import org.example.repository.ProfileGameRepository;
+import org.example.repository.ProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Service
 public class ProfileGameService {
-    private final ProfileGameDao profileGameDao;
+    private final ProfileGameRepository profileGameRepository;
+    private final ProfileRepository profileRepository;
+    private final GameRepository gameRepository;
     private final GameMapper gameMapper = GameMapper.INSTANCE;
 
-    public ProfileGameService(ProfileGameDao profileGameDao) {
-        this.profileGameDao = profileGameDao;
+    @Autowired
+    public ProfileGameService(ProfileGameRepository profileGameRepository, ProfileRepository profileRepository,
+                              GameRepository gameRepository) {
+        this.profileGameRepository = profileGameRepository;
+        this.profileRepository = profileRepository;
+        this.gameRepository = gameRepository;
     }
 
-    public void addProfileToGame(int profileId, int gameId) throws SQLException {
-        profileGameDao.addProfileToGame(profileId, gameId);
+    public void addProfileToGame(Integer profileId, Integer gameId) {
+        Profile profile = profileRepository.findById(profileId)
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found"));
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new EntityNotFoundException("Game not found"));
+
+        ProfileGameId profileGameId = new ProfileGameId(profileId, gameId);
+        ProfileGame profileGame = new ProfileGame();
+        profileGame.setProfileId(profile);
+        profileGame.setGameId(game);
+        profileGame.setId(profileGameId);
+        profileGameRepository.save(profileGame);
     }
 
-    public List<GameDto> getGamesByProfileId(int profileId) throws SQLException {
-        List<Game> games = profileGameDao.findGamesByProfileId(profileId);
-        return games.stream()
+
+    public List<GameDto> getAllGamesByProfileId(Integer profileId) {
+        Profile profile = profileRepository.findById(profileId)
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found"));
+
+        List<ProfileGame> profileGames = profileGameRepository.findAllByProfileId(profile);
+        return profileGames.stream()
+                .map(ProfileGame::getGameId)
                 .map(gameMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

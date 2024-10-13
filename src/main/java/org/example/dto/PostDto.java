@@ -1,29 +1,10 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.time.LocalDateTime;
-
 public class PostDto {
     private Integer id;
     private Integer profileId;
     private String content;
-    private LocalDateTime createdAt;
-
-    @JsonCreator
-    public PostDto(@JsonProperty("id") Integer id,
-                   @JsonProperty("profileId") Integer profileId,
-                   @JsonProperty("content") String content,
-                   @JsonProperty("createdAt") LocalDateTime createdAt) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.content = content;
-        this.profileId = profileId;
-    }
-
-    public PostDto() {
-    }
+    private String createdAt;
 
     public Integer getId() {
         return id;
@@ -49,11 +30,11 @@ public class PostDto {
         this.content = content;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 }

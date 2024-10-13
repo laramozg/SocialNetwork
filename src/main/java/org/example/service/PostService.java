@@ -1,33 +1,52 @@
 package org.example.service;
 
-import org.example.dao.PostDao;
+import jakarta.persistence.EntityNotFoundException;
 import org.example.dto.PostDto;
 import org.example.mapper.PostMapper;
 import org.example.model.Post;
+import org.example.model.Profile;
+import org.example.repository.PostRepository;
+import org.example.repository.ProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Service
 public class PostService {
-    private final PostDao postDao;
+    private final PostRepository postRepository;
+    private final ProfileRepository profileRepository;
     private final PostMapper postMapper = PostMapper.INSTANCE;
 
-    public PostService(PostDao postDao) {
-        this.postDao = postDao;
+    @Autowired
+    public PostService(PostRepository postRepository, ProfileRepository profileRepository) {
+        this.postRepository = postRepository;
+        this.profileRepository = profileRepository;
     }
 
-    public int savePost(PostDto postDto) throws SQLException {
+    public PostDto createPost(PostDto postDto) {
+        profileRepository.findById(postDto.getProfileId())
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found"));
+
         Post post = postMapper.toEntity(postDto);
-        return postDao.save(post);
+        return postMapper.toDto(postRepository.save(post));
     }
 
-    public List<PostDto> getPostsByProfileId(int profileId) throws SQLException {
-        List<Post> posts = postDao.findByProfileId(profileId);
-        return posts.stream().map(postMapper::toDto).collect(Collectors.toList());
+
+    public List<PostDto> getPostsByProfileId(Integer profileId) {
+        Profile profile = profileRepository.findById(profileId)
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found"));
+
+        List<Post> posts = postRepository.findByProfileId(profile);
+        return posts.stream()
+                .map(postMapper::toDto)
+                .toList();
     }
 
-    public void deletePost(int id) throws SQLException {
-        postDao.delete(id);
+    public void deletePostById(Integer id) {
+        if (!postRepository.existsById(id)) {
+            throw new EntityNotFoundException("Post not found");
+        }
+        postRepository.deleteById(id);
     }
 }

@@ -1,7 +1,14 @@
 package org.example.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "games")
 public class Game {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String title;
     private String genre;
 

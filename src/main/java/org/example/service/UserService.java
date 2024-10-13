@@ -1,36 +1,47 @@
 package org.example.service;
 
-import org.example.dao.UserDao;
+import jakarta.persistence.EntityNotFoundException;
 import org.example.dto.UserDto;
 import org.example.mapper.UserMapper;
 import org.example.model.User;
+import org.example.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
+
+@Service
 public class UserService {
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public UserDto getUserById(Integer id) throws SQLException {
-        User user = userDao.findById(id);
-        return userMapper.toDto(user);
+    public UserDto getUserById(Integer id) {
+        return userRepository.findById(id)
+                .map(userMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("User with username '" + id + "' not found"));
     }
-    public int saveUser(UserDto userDto) throws SQLException {
+
+    public UserDto saveUser(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
-        return userDao.save(user);
+        return userMapper.toDto(userRepository.save(user));
     }
 
-    public void updateUser(UserDto userDto) throws SQLException {
-        User user = userMapper.toEntity(userDto);
-        userDao.update(user);
+    public UserDto updateUser(Integer id, UserDto userDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with username '" + id + "' not found"));
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
+        return userMapper.toDto(userRepository.save(user));
     }
 
-    public void deleteUser(Integer id) throws SQLException {
-        userDao.deleteById(id);
+    public void deleteUser(Integer id)  {
+        getUserById(id);
+        userRepository.deleteById(id);
     }
 }

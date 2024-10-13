@@ -1,5 +1,3 @@
 
 i
-java:S1170"!Make this final field static too.(¼¬¤­ûÿÿÿÿ8‚Õ2J$1e6c8b94-78e1-4ab1-bc87-3aef19f9875a
-½
-java:S6204 "zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(›€ß8úÁ‰Ø2J$b020ab7a-cbad-40c5-aed3-18729d64e411
+java:S1170"!Make this final field static too.(¼¬¤­ûÿÿÿÿ8Ïø›¯¨2J$814c4c29-83e8-4863-9132-1f452b0d994e

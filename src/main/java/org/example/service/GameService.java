@@ -1,34 +1,40 @@
 package org.example.service;
 
-import org.example.dao.GameDao;
+import jakarta.persistence.EntityNotFoundException;
 import org.example.dto.GameDto;
 import org.example.mapper.GameMapper;
 import org.example.model.Game;
+import org.example.repository.GameRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Service
 public class GameService {
-    private final GameDao gameDao;
+    private final GameRepository gameRepository;
     private final GameMapper gameMapper = GameMapper.INSTANCE;
 
-    public GameService(GameDao gameDao) {
-        this.gameDao = gameDao;
+    @Autowired
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
     }
 
-    public int saveGame(GameDto gameDto) throws SQLException {
+    public List<GameDto> findAllGames() {
+        return gameRepository.findAll()
+                .stream()
+                .map(gameMapper::toDto)
+                .toList();
+    }
+
+    public GameDto findGameById(Integer id) {
+        return gameRepository.findById(id)
+                .map(gameMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Game not found"));
+    }
+
+    public GameDto createGame(GameDto gameDto) {
         Game game = gameMapper.toEntity(gameDto);
-        return gameDao.save(game);
-    }
-
-    public GameDto getGameById(int id) throws SQLException {
-        Game game = gameDao.findById(id);
-        return gameMapper.toDto(game);
-    }
-
-    public List<GameDto> getAllGames() throws SQLException {
-        List<Game> games = gameDao.findAll();
-        return games.stream().map(gameMapper::toDto).collect(Collectors.toList());
+        return gameMapper.toDto(gameRepository.save(game));
     }
 }
