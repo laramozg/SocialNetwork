@@ -63,7 +63,7 @@ public class AppConfig {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.format_sql", "true");  // Форматирование SQL-запросов в логах
+        properties.setProperty("hibernate.format_sql", "true");
         return properties;
     }
 
