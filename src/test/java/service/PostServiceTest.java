@@ -1,99 +1,128 @@
-//package service;
-//
-//import org.example.repository.PostDao;
-//import org.example.dto.PostDto;
-//import org.example.mapper.PostMapper;
-//import org.example.model.Post;
-//import org.example.model.Profile;
-//import org.example.model.User;
-//import org.example.service.PostService;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.ArgumentCaptor;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//
-//import java.sql.SQLException;
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
-//import static org.mockito.Mockito.*;
-//
-//class PostServiceTest {
-//    @Mock
-//    private PostDao postDao;
-//
-//    @InjectMocks
-//    private PostService postService;
-//
-//    private PostMapper postMapper;
-//
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//        postMapper = PostMapper.INSTANCE;
-//    }
-//
-//    @Test
-//    void testSavePost() throws SQLException {
-//        LocalDateTime now = LocalDateTime.now();
-//        PostDto postDto = new PostDto(null, 1, "Content", now);
-//        Post post = new Post();
-//        post.setContent("Content");
-//        post.setCreatedAt(now);
-//        post.setProfileId(new Profile(1, "John", "Doe", "john.doe@example.com", new User(1, "newuser", "password")));
-//
-//        when(postDao.save(any(Post.class))).thenReturn(1);
-//
-//        int result = postService.savePost(postDto);
-//
-//        assertEquals(1, result);
-//
-//        ArgumentCaptor<Post> postCaptor = ArgumentCaptor.forClass(Post.class);
-//        verify(postDao, times(1)).save(postCaptor.capture());
-//
-//        Post capturedPost = postCaptor.getValue();
-//        assertEquals(post.getContent(), capturedPost.getContent());
-//        assertEquals(post.getCreatedAt(), capturedPost.getCreatedAt());
-//        assertEquals(post.getProfileId().getId(), capturedPost.getProfileId().getId());
-//    }
-//
-//    @Test
-//    void testGetPostsByProfileId() throws SQLException {
-//        LocalDateTime now = LocalDateTime.now();
-//
-//        Post post = new Post();
-//        post.setId(1);
-//        post.setContent("Content");
-//        post.setCreatedAt(now);
-//        post.setProfileId(new Profile(1, "John", "Doe", "john.doe@example.com", new User(1, "newuser", "password")));
-//
-//        PostDto postDto = postMapper.toDto(post);
-//
-//        List<Post> posts = new ArrayList<>();
-//        posts.add(post);
-//
-//        when(postDao.findByProfileId(1)).thenReturn(posts);
-//
-//        List<PostDto> result = postService.getPostsByProfileId(1);
-//
-//        assertNotNull(result);
-//        assertEquals(1, result.size());
-//        assertEquals(postDto.getContent(), result.get(0).getContent());
-//        assertEquals(postDto.getProfileId(), result.get(0).getProfileId());
-//        verify(postDao, times(1)).findByProfileId(1);
-//
-//    }
-//
-//    @Test
-//    void testDeletePost() throws SQLException {
-//        int postId = 1;
-//        postService.deletePost(postId);
-//        verify(postDao, times(1)).delete(postId);
-//    }
-//
-//}
+package service;
+
+import jakarta.persistence.EntityNotFoundException;
+import org.example.dto.PostDto;
+import org.example.mapper.PostMapper;
+import org.example.model.Post;
+import org.example.model.Profile;
+import org.example.repository.PostRepository;
+import org.example.repository.ProfileRepository;
+import org.example.service.PostService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
+class PostServiceTest {
+    @Mock
+    private PostRepository postRepository;
+
+    @Mock
+    private ProfileRepository profileRepository;
+
+    @InjectMocks
+    private PostService postService;
+
+    private PostMapper postMapper = PostMapper.INSTANCE;
+
+    private Profile profile;
+    private Post post;
+    private PostDto postDto;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        LocalDateTime now = LocalDateTime.now();
+        profile = new Profile();
+        profile.setId(1);
+
+        post = new Post();
+        post.setId(1);
+        post.setProfileId(profile);
+        post.setContent("Test Post");
+        post.setCreatedAt(now);
+
+        postDto = new PostDto();
+        postDto.setId(1);
+        postDto.setProfileId(1);
+        postDto.setContent("Test Post");
+        postDto.setContent(now.toString());
+    }
+
+    @Test
+    void testCreatePost_Success() {
+        when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+        when(postRepository.save(any(Post.class))).thenReturn(post);
+
+        PostDto result = postService.createPost(postDto);
+
+        assertEquals("Test Post", result.getContent());
+        verify(profileRepository, times(1)).findById(1);
+        verify(postRepository, times(1)).save(any(Post.class));
+    }
+
+    @Test
+    void testCreatePost_ProfileNotFound() {
+        when(profileRepository.findById(1)).thenReturn(Optional.empty());
+
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> postService.createPost(postDto));
+
+        assertEquals("Profile not found", exception.getMessage());
+        verify(profileRepository, times(1)).findById(1);
+        verify(postRepository, never()).save(any(Post.class));
+    }
+
+    @Test
+    void testGetPostsByProfileId_Success() {
+        when(profileRepository.findById(1)).thenReturn(Optional.of(profile));
+        when(postRepository.findByProfileId(profile)).thenReturn(List.of(post));
+
+        List<PostDto> result = postService.getPostsByProfileId(1);
+
+        assertEquals(1, result.size());
+        assertEquals("Test Post", result.get(0).getContent());
+        verify(profileRepository, times(1)).findById(1);
+        verify(postRepository, times(1)).findByProfileId(profile);
+    }
+
+    @Test
+    void testGetPostsByProfileId_ProfileNotFound() {
+        when(profileRepository.findById(1)).thenReturn(Optional.empty());
+
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> postService.getPostsByProfileId(1));
+
+        assertEquals("Profile not found", exception.getMessage());
+        verify(profileRepository, times(1)).findById(1);
+        verify(postRepository, never()).findByProfileId(any(Profile.class));
+    }
+
+    @Test
+    void testDeletePostById_Success() {
+        when(postRepository.existsById(1)).thenReturn(true);
+
+        postService.deletePostById(1);
+
+        verify(postRepository, times(1)).existsById(1);
+        verify(postRepository, times(1)).deleteById(1);
+    }
+
+    @Test
+    void testDeletePostById_PostNotFound() {
+        when(postRepository.existsById(1)).thenReturn(false);
+
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> postService.deletePostById(1));
+
+        assertEquals("Post not found", exception.getMessage());
+        verify(postRepository, times(1)).existsById(1);
+        verify(postRepository, never()).deleteById(1);
+    }
+}

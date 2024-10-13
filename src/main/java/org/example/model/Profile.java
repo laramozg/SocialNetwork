@@ -54,7 +54,7 @@ public class Profile {
         return userId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

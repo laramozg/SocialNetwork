@@ -2,6 +2,7 @@ package org.example.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,15 +23,25 @@ import java.util.Properties;
 @ComponentScan(basePackages = "org.example")
 @EnableJpaRepositories(basePackages = "org.example.repository")
 public class AppConfig {
+    @Value("${spring.datasource.url}")
+    private String jdbcUrl;
 
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    @Value("${spring.datasource.driver-class-name}")
+    private String driverClassName;
 
     @Bean
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:postgresql://postgres:5432/testdb");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setJdbcUrl(jdbcUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setDriverClassName(driverClassName);
         return dataSource;
     }
 
